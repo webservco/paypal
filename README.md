@@ -1,5 +1,5 @@
 # webservco/paypal
 
-A PHP component/library.
+A PayPal REST API implementation.
 
 ---
