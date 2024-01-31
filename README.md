@@ -10,7 +10,7 @@ A PayPal REST API implementation.
 
 Both table names and field names can be customized.
 
-#### Table `order`
+#### Table `order_payment`
 
 ##### Fields to add to an existing table
 
@@ -24,7 +24,7 @@ Both table names and field names can be customized.
 ##### New table example
 
 ```sql
-CREATE TABLE `order` (
+CREATE TABLE order_payment (
     order_reference VARCHAR(45) NOT NULL,
     order_total DECIMAL(10,2) NOT NULL,
     order_currency CHAR(3) NOT NULL,
@@ -76,7 +76,7 @@ Note: If a custom implementation is required, check and adapt the code located i
 - Create tables;
 - Create a test order:
 ```sql
-INSERT INTO `order` (order_reference, order_total, order_currency) VALUES ('Test1', 123.45, 'EUR');
+INSERT INTO `order_payment` (order_reference, order_total, order_currency) VALUES ('Test1', 123.45, 'EUR');
 ```
 - Open payment page: `https://paypal.ddev.site/payment/pay.php?orderReference=Test1`
 

@@ -9,7 +9,7 @@ use WebServCo\Data\Contract\Transfer\DataTransferInterface;
 final readonly class TableNameConfiguration implements DataTransferInterface
 {
     public function __construct(
-        public string $order = 'order',
+        public string $order = 'order_payment',
         public string $paymentAccessToken = 'payment_access_token',
     ) {
     }
