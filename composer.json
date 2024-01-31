@@ -25,7 +25,15 @@
     "license" : "MIT",
     "name" : "webservco/paypal",
     "require": {
-        "php" : "^8.3"
+        "php" : "^8.3",
+        "nyholm/psr7": "^1",
+        "psr/http-client": "^1",
+        "psr/http-message": "^2",
+        "symfony/http-client": "^6",
+        "webservco/configuration": "^0",
+        "webservco/data": "^0",
+        "webservco/database": "^0",
+        "webservco/log": "^0"
     },
     "require-dev": {
         "pds/skeleton": "^1",
