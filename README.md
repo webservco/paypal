@@ -78,7 +78,10 @@ Note: If a custom implementation is required, check and adapt the code located i
 ```sql
 INSERT INTO `order_payment` (order_reference, order_total, order_currency) VALUES ('Test1', 123.45, 'EUR');
 ```
-- Open payment page: `https://paypal.ddev.site/payment/pay.php?orderReference=Test1`
+- Open payment page: `https://paypal.ddev.site/payment/pay.php?orderReference=Test1&languageCode=en`
+
+Note: `languageCode` is optional and only used internally in implementing project.
+If you set it when initialize the payment, it will arrive as parameter to the `PAYMENT_RESULT_LOCATION` and the `PAYMENT_CANCEL_LOCATION`.
 
 ---
 

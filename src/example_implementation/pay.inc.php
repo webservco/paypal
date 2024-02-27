@@ -23,6 +23,12 @@ $logger = new NullLogger();
 $orderReference = array_key_exists('orderReference', $_GET)
 ? (string) $_GET['orderReference']
 : null;
+/**
+ * @psalm-suppress PossiblyInvalidCast
+ */
+$languageCode = array_key_exists('languageCode', $_GET)
+    ? (string) $_GET['languageCode']
+    : null;
 // @phpcs:enable
 
 try {
@@ -68,12 +74,22 @@ try {
             new Amount($orderSummary->currency, $orderSummary->total),
         ),
         new Context(
-            sprintf('%spayment/return.php?orderReference=%s', $urlMain, $orderReference),
             sprintf(
-                '%s%s?orderReference=%s',
+                '%spayment/return.php?orderReference=%s%s',
+                $urlMain,
+                $orderReference,
+                $languageCode !== null
+                    ? sprintf('&languageCode=%s', $languageCode)
+                    : '',
+            ),
+            sprintf(
+                '%s%s?orderReference=%s%s',
                 $urlMain,
                 $configurationGetter->getString('PAYMENT_CANCEL_LOCATION'),
                 $orderReference,
+                $languageCode !== null
+                    ? sprintf('&languageCode=%s', $languageCode)
+                    : '',
             ),
         ),
     );

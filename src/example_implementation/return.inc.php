@@ -24,6 +24,12 @@ $orderReference = array_key_exists('orderReference', $_GET)
 /**
  * @psalm-suppress PossiblyInvalidCast
  */
+$languageCode = array_key_exists('languageCode', $_GET)
+    ? (string) $_GET['languageCode']
+    : null;
+/**
+ * @psalm-suppress PossiblyInvalidCast
+ */
 $paypalOrderId = array_key_exists('token', $_GET)
 ? (string) $_GET['token']
 : null;
@@ -79,11 +85,14 @@ try {
     // Redirect to result page.
     header(
         sprintf(
-            'Location: %s%s?orderReference=%s&accessToken=%s',
+            'Location: %s%s?orderReference=%s&accessToken=%s%s',
             $urlMain,
             $configurationGetter->getString('PAYMENT_RESULT_LOCATION'),
             $orderReference,
             $accessToken->token,
+            $languageCode !== null
+                ? sprintf('&languageCode=%s', $languageCode)
+                : '',
         ),
         true,
         302,
