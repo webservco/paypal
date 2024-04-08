@@ -20,6 +20,8 @@ use function json_decode;
 use function sprintf;
 use function uniqid;
 
+use const JSON_THROW_ON_ERROR;
+
 abstract class AbstractPaymentService
 {
     public function __construct(
@@ -71,7 +73,7 @@ abstract class AbstractPaymentService
             throw new UnexpectedValueException('Response body is empty.');
         }
 
-        $array = json_decode($body, true);
+        $array = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
         if (!is_array($array)) {
             throw new UnexpectedValueException('Error decoding JSON data.');
         }
