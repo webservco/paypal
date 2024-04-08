@@ -48,6 +48,7 @@ $configurationFileProcessor->processConfigurationFile($projectPath, 'config', '.
 $configurationGetterFactory = new ServerConfigurationGetterFactory();
 $configurationGetter = $configurationGetterFactory->createConfigurationGetter();
 
+// Not working: @psalm-suppress UnusedVariable
 $urlMain = $configurationGetter->getString('BASE');
 
 /**
@@ -90,6 +91,7 @@ $storageConfiguration = new StorageConfiguration(
     ),
 );
 
+// Not working: @psalm-suppress UnusedVariable
 $orderPaymentStorage = new OrderPaymentStorage(
     $arrayNonEmptyDataExtractionService,
     $pdoContainer,
@@ -122,10 +124,12 @@ $accessTokenService = new AccessTokenService(
     $psrImplementation,
 );
 try {
+    // Not working: @psalm-suppress UnusedVariable
     $accessToken = $accessTokenStorage->fetchCurrentAccessToken();
 } catch (UnexpectedValueException) {
     $accessToken = $accessTokenService->getAccessToken();
     $accessTokenStorage->storeAccessToken($accessToken);
 }
 
+// Not working: @psalm-suppress UnusedVariable
 $ordersService = new OrdersService($psrImplementation, $logger, $paypalOptions, $psrImplementation, $psrImplementation);
