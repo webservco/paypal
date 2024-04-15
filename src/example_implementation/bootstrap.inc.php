@@ -10,6 +10,7 @@ use Symfony\Component\HttpClient\Psr18Client;
 use WebServCo\Configuration\Factory\ServerConfigurationGetterFactory;
 use WebServCo\Configuration\Service\ConfigurationFileProcessor;
 use WebServCo\Configuration\Service\IniServerConfigurationContainer;
+use WebServCo\Data\Service\Extraction\ArrayStorageService;
 use WebServCo\Data\Service\Extraction\Loose\LooseArrayNonEmptyDataExtractionService;
 use WebServCo\Data\Service\Extraction\Loose\LooseDataExtractionService;
 use WebServCo\Data\Service\Extraction\Loose\LooseNonEmptyDataExtractionService;
@@ -62,6 +63,7 @@ $logger = $loggerFactory->createLogger('payment');
  */
 
 $arrayNonEmptyDataExtractionService = new LooseArrayNonEmptyDataExtractionService(
+    new ArrayStorageService(),
     new LooseDataExtractionService(),
     new LooseNonEmptyDataExtractionService(),
 );
