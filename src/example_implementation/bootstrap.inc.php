@@ -49,7 +49,7 @@ $configurationGetterFactory = new ServerConfigurationGetterFactory();
 $configurationGetter = $configurationGetterFactory->createConfigurationGetter();
 
 // Not working: @psalm-suppress UnusedVariable
-$urlMain = $configurationGetter->getString('BASE');
+$appBaseUrl = $configurationGetter->getString('PAYMENT_APP_BASE_URL');
 
 /**
  * Logger.

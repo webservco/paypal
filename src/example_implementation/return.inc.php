@@ -47,7 +47,7 @@ try {
     assert(isset($configurationGetter) && $configurationGetter instanceof ConfigurationGetterInterface);
     assert(isset($orderPaymentStorage) && $orderPaymentStorage instanceof OrderPaymentStorageInterface);
     assert(isset($ordersService) && $ordersService instanceof OrdersService);
-    assert(isset($urlMain) && is_string($urlMain));
+    assert(isset($appBaseUrl) && is_string($appBaseUrl));
 
     if ($orderReference === null) {
         throw new UnexpectedValueException('Missing orderReference.');
@@ -86,7 +86,7 @@ try {
     header(
         sprintf(
             'Location: %s%s?orderReference=%s&accessToken=%s%s',
-            $urlMain,
+            $appBaseUrl,
             $configurationGetter->getString('PAYMENT_RESULT_LOCATION'),
             $orderReference,
             $accessToken->token,

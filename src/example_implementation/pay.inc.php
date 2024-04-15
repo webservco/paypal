@@ -42,7 +42,7 @@ try {
     assert(isset($configurationGetter) && $configurationGetter instanceof ConfigurationGetterInterface);
     assert(isset($orderPaymentStorage) && $orderPaymentStorage instanceof OrderPaymentStorageInterface);
     assert(isset($ordersService) && $ordersService instanceof OrdersService);
-    assert(isset($urlMain) && is_string($urlMain));
+    assert(isset($appBaseUrl) && is_string($appBaseUrl));
 
     if ($orderReference === null) {
         throw new UnexpectedValueException('Missing orderReference.');
@@ -76,7 +76,7 @@ try {
         new Context(
             sprintf(
                 '%spayment/return.php?orderReference=%s%s',
-                $urlMain,
+                $appBaseUrl,
                 $orderReference,
                 $languageCode !== null
                     ? sprintf('&languageCode=%s', $languageCode)
@@ -84,7 +84,7 @@ try {
             ),
             sprintf(
                 '%s%s?orderReference=%s%s',
-                $urlMain,
+                $appBaseUrl,
                 $configurationGetter->getString('PAYMENT_CANCEL_LOCATION'),
                 $orderReference,
                 $languageCode !== null

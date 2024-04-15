@@ -49,7 +49,7 @@ CREATE TABLE payment_access_token (
 
 ## Configuration
 
-- Table and field names: Use environment variables (check example configuration);
+Use environment variables (check example configuration) (app url, default currency, table and fields names);
 
 If not using order level currency, make sure to set the `PAYMENT_DEFAULT_CURRENCY` options, and leave blank `PAYMENT_FIELD_NAME_ORDER_CURRENCY`.
 
