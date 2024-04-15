@@ -11,7 +11,7 @@ interface OrderPaymentStorageInterface
 {
     public function fetchOrderSummary(string $orderReference): Summary;
 
-    public function fetchOrderStatus(string $orderReference): ?string;
+    public function fetchOrderPaymentStatus(string $orderReference): ?string;
 
     public function updateOrderData(string $orderReference, OrderData $orderData): bool;
 }

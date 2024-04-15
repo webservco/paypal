@@ -18,7 +18,7 @@ Both table names and field names can be customized.
 - Mandatory: `order_total`: implementation specific, eg. `DECIMAL(10,2) NOT NULL` 
 - Optional: `order_currency`: `CHAR(3) NOT NULL`, 
   - [PayPal currency codes](https://developer.paypal.com/reference/currency-codes/)
-- Mandatory: `payment_status` `VARCHAR(45) DEFAULT NULL`,
+- Mandatory: `order_payment_status` `VARCHAR(45) DEFAULT NULL`,
 - Mandatory: `payment_event_date_time` `DATETIME DEFAULT NULL`,
 
 ##### New table example
@@ -28,7 +28,7 @@ CREATE TABLE order_payment (
     order_reference VARCHAR(45) NOT NULL,
     order_total DECIMAL(10,2) NOT NULL,
     order_currency CHAR(3) NOT NULL,
-    payment_status VARCHAR(45) DEFAULT NULL,
+    order_payment_status VARCHAR(45) DEFAULT NULL,
     payment_event_date_time DATETIME DEFAULT NULL,
     PRIMARY KEY(order_reference)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

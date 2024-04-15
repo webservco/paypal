@@ -41,13 +41,13 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
         );
     }
 
-    public function fetchOrderStatus(string $orderReference): ?string
+    public function fetchOrderPaymentStatus(string $orderReference): ?string
     {
         $stmt = $this->pdoContainer->getPDOService()->prepareStatement(
             $this->pdoContainer->getPDO(),
             sprintf(
                 "SELECT `%s` FROM `%s` WHERE `%s` = ? LIMIT 1",
-                $this->storageConfiguration->fieldNameConfiguration->paymentStatus,
+                $this->storageConfiguration->fieldNameConfiguration->orderPaymentStatus,
                 $this->storageConfiguration->tableNameConfiguration->order,
                 $this->storageConfiguration->fieldNameConfiguration->orderReference,
             ),
@@ -62,7 +62,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
 
         return $this->arrayNonEmptyDataExtractionService->getNonEmptyNullableString(
             $row,
-            $this->storageConfiguration->fieldNameConfiguration->paymentStatus,
+            $this->storageConfiguration->fieldNameConfiguration->orderPaymentStatus,
         );
     }
 
@@ -73,7 +73,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
             sprintf(
                 "UPDATE `%s` SET `%s` = ?, `%s` = NOW() WHERE `%s` = ? LIMIT 1",
                 $this->storageConfiguration->tableNameConfiguration->order,
-                $this->storageConfiguration->fieldNameConfiguration->paymentStatus,
+                $this->storageConfiguration->fieldNameConfiguration->orderPaymentStatus,
                 $this->storageConfiguration->fieldNameConfiguration->paymentEventDateTime,
                 $this->storageConfiguration->fieldNameConfiguration->orderReference,
             ),

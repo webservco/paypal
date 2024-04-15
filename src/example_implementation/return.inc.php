@@ -63,9 +63,10 @@ try {
     /**
      * Check order status.
      */
-    $orderStatus = $orderPaymentStorage->fetchOrderStatus($orderReference);
+    // Get status from local database.
+    $orderPaymentStatus = $orderPaymentStorage->fetchOrderPaymentStatus($orderReference);
     // Use the same check done after creation, at this point we have no other info.
-    $ordersService->validateOrderStatusAfterCreation($orderStatus);
+    $ordersService->validatePaymentOrderStatusAfterCreation($orderPaymentStatus);
 
     /**
      * Payment sys.
@@ -73,11 +74,11 @@ try {
 
     // Get order data from PayPal
     $orderData = $ordersService->getOrderData($accessToken, $paypalOrderId);
-    $ordersService->validateOrderStatusBeforeCapture($orderData->status);
+    $ordersService->validateOrderPaymentStatusBeforeCapture($orderData->status);
 
     // Capture payment
     $orderData = $ordersService->captureOrder($accessToken, $paypalOrderId);
-    $ordersService->validateOrderStatusAfterCapture($orderData->status);
+    $ordersService->validateOrderPaymentStatusAfterCapture($orderData->status);
 
     // Store payment data.
     $orderPaymentStorage->updateOrderData($orderReference, $orderData);

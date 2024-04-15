@@ -156,36 +156,36 @@ final class OrdersService extends AbstractPaymentService
         throw new UnexpectedValueException('Unsupported order currency.');
     }
 
-    public function validateOrderStatusAfterCapture(?string $orderStatus): bool
+    public function validateOrderPaymentStatusAfterCapture(?string $orderPaymentStatus): bool
     {
-        if ($orderStatus === 'COMPLETED') {
+        if ($orderPaymentStatus === 'COMPLETED') {
             return true;
         }
 
         throw new UnexpectedValueException('Invalid order status.');
     }
 
-    public function validateOrderStatusAfterCreation(?string $orderStatus): bool
+    public function validatePaymentOrderStatusAfterCreation(?string $orderPaymentStatus): bool
     {
-        if ($orderStatus === 'CREATED') {
+        if ($orderPaymentStatus === 'CREATED') {
             return true;
         }
 
         throw new UnexpectedValueException('Invalid order status.');
     }
 
-    public function validateOrderStatusBeforeCapture(?string $orderStatus): bool
+    public function validateOrderPaymentStatusBeforeCapture(?string $orderPaymentStatus): bool
     {
-        if (in_array($orderStatus, ['APPROVED', null], true)) {
+        if (in_array($orderPaymentStatus, ['APPROVED', null], true)) {
             return true;
         }
 
         throw new UnexpectedValueException('Invalid order status.');
     }
 
-    public function validateOrderStatusBeforeCreation(?string $orderStatus): bool
+    public function validateOrderPaymentStatusBeforeCreation(?string $orderPaymentStatus): bool
     {
-        if (in_array($orderStatus, ['CREATED', null], true)) {
+        if (in_array($orderPaymentStatus, ['CREATED', null], true)) {
             return true;
         }
 

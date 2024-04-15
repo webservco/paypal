@@ -57,8 +57,8 @@ try {
     /**
      * Check if already paid.
      */
-    $orderStatus = $orderPaymentStorage->fetchOrderStatus($orderReference);
-    $ordersService->validateOrderStatusBeforeCreation($orderStatus);
+    $orderPaymentStatus = $orderPaymentStorage->fetchOrderPaymentStatus($orderReference);
+    $ordersService->validateOrderPaymentStatusBeforeCreation($orderPaymentStatus);
 
     /**
      * Payment sys.
@@ -93,7 +93,7 @@ try {
             ),
         ),
     );
-    $ordersService->validateOrderStatusAfterCreation($orderData->status);
+    $ordersService->validatePaymentOrderStatusAfterCreation($orderData->status);
 
     // Store payment data.
     $orderPaymentStorage->updateOrderData($orderReference, $orderData);

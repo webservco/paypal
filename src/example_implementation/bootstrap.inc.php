@@ -88,7 +88,7 @@ $storageConfiguration = new StorageConfiguration(
         $configurationGetter->getString('PAYMENT_FIELD_NAME_ORDER_TOTAL'),
         // Not using order level currency for current project.
         $fieldNameOrderCurrency !== '' ? $fieldNameOrderCurrency : null,
-        $configurationGetter->getString('PAYMENT_FIELD_NAME_PAYMENT_STATUS'),
+        $configurationGetter->getString('PAYMENT_FIELD_NAME_ORDER_PAYMENT_STATUS'),
         $configurationGetter->getString('PAYMENT_FIELD_NAME_PAYMENT_TIME'),
     ),
     new TableNameConfiguration(
