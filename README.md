@@ -49,10 +49,9 @@ CREATE TABLE payment_access_token (
 
 ## Configuration
 
-- `\WebServCo\DataTransfer\Order\Storage\TableNameConfiguration`
-- `\WebServCo\DataTransfer\Order\Storage\FieldNameConfiguration`
+- Table and field names: Use environment variables (check example configuration);
 
-If not using order level currency, make sure to set the `$defaultCurrency`, and set `$orderCurrency` to `null`.
+If not using order level currency, make sure to set the `PAYMENT_DEFAULT_CURRENCY` options, and leave blank `PAYMENT_FIELD_NAME_ORDER_CURRENCY`.
 
 If using a very specialized setup and using the configuration is not enough, you can implement `\WebServCo\Contract\Storage\Order\OrderPaymentStorageInterface` specifically for your project.
 

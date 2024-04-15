@@ -76,7 +76,7 @@ $pdoContainer = $pdoContainerFactory->createPDOContainer();
 
 $fieldNameOrderCurrency = $configurationGetter->getString('PAYMENT_FIELD_NAME_ORDER_CURRENCY');
 $storageConfiguration = new StorageConfiguration(
-    'EUR',
+    $configurationGetter->getString('PAYMENT_DEFAULT_CURRENCY'),
     new FieldNameConfiguration(
         $configurationGetter->getString('PAYMENT_FIELD_NAME_ORDER_REFERENCE'),
         $configurationGetter->getString('PAYMENT_FIELD_NAME_ORDER_TOTAL'),
