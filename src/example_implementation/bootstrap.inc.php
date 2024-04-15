@@ -49,7 +49,7 @@ $configurationFileProcessor->processConfigurationFile($projectPath, 'config', '.
 $configurationGetterFactory = new ServerConfigurationGetterFactory();
 $configurationGetter = $configurationGetterFactory->createConfigurationGetter();
 
-$appBaseUrlSettingKey = 'PAYMENT_APP_BASE_URL_SETTING_KEY';
+$appBaseUrlSettingKey = $configurationGetter->getString('PAYMENT_APP_BASE_URL_SETTING_KEY');
 // Not working: @psalm-suppress UnusedVariable
 $appBaseUrl = $configurationGetter->getString($appBaseUrlSettingKey);
 if ($appBaseUrl === '') {
