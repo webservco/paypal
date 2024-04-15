@@ -22,23 +22,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
 
         $row = $this->pdoContainer->getPDOService()->fetchAssoc($stmt);
 
-        if ($row === []) {
-            throw new UnexpectedValueException('No data found in storage.');
-        }
-
-        return new Summary(
-            $this->arrayNonEmptyDataExtractionService->getNonEmptyFloat(
-                $row,
-                $this->storageConfiguration->fieldNameConfiguration->orderTotal,
-            ),
-            $this->storageConfiguration->fieldNameConfiguration->orderCurrency !== null
-            ? $this->arrayNonEmptyDataExtractionService->getNonEmptyString(
-                $row,
-                // Does not affect the customizable table field name (handled in `createOrderSummaryFetchStatement`)
-                'order_currency',
-            )
-            : $this->storageConfiguration->defaultCurrency,
-        );
+        return $this->hydrateOrderSummary($row);
     }
 
     public function fetchOrderPaymentStatus(string $orderReference): ?string
@@ -56,14 +40,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
 
         $row = $this->pdoContainer->getPDOService()->fetchAssoc($stmt);
 
-        if ($row === []) {
-            throw new UnexpectedValueException('No data found in storage.');
-        }
-
-        return $this->arrayNonEmptyDataExtractionService->getNonEmptyNullableString(
-            $row,
-            $this->storageConfiguration->fieldNameConfiguration->orderPaymentStatus,
-        );
+        return $this->hydrateOrderPaymentStatus($row);
     }
 
     public function updateOrderData(string $orderReference, OrderData $orderData): bool
@@ -95,5 +72,71 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
                 $this->storageConfiguration->fieldNameConfiguration->orderReference,
             ),
         );
+    }
+
+    /**
+     * @param array<string,scalar|null> $data
+     */
+    private function hydrateOrderCurrency(array $data): string
+    {
+        return $this->storageConfiguration->fieldNameConfiguration->orderCurrency !== null
+            ? $this->arrayNonEmptyDataExtractionService->getNonEmptyString(
+                $data,
+                /**
+                 * Does not affect the customizable table field name
+                 * (handled in `createOrderSummaryFetchStatement`)
+                 */
+                'order_currency',
+            )
+            : $this->storageConfiguration->defaultCurrency;
+    }
+
+    /**
+     * @param array<string,scalar|null> $data
+     */
+    private function hydrateOrderPaymentStatus(array $data): ?string
+    {
+        if ($data === []) {
+            throw new UnexpectedValueException('No data found in storage.');
+        }
+
+        try {
+            return $this->arrayNonEmptyDataExtractionService->getNonEmptyNullableString(
+                $data,
+                $this->storageConfiguration->fieldNameConfiguration->orderPaymentStatus,
+            );
+        } catch (UnexpectedValueException $e) {
+            throw new UnexpectedValueException(
+                sprintf('Error fetching order payment status: "%s".', $e->getMessage()),
+                $e->getCode(),
+                $e,
+            );
+        }
+    }
+
+    /**
+     * @param array<string,scalar|null> $data
+     */
+    private function hydrateOrderSummary(array $data): Summary
+    {
+        if ($data === []) {
+            throw new UnexpectedValueException('No data found in storage.');
+        }
+
+        try {
+            return new Summary(
+                $this->arrayNonEmptyDataExtractionService->getNonEmptyFloat(
+                    $data,
+                    $this->storageConfiguration->fieldNameConfiguration->orderTotal,
+                ),
+                $this->hydrateOrderCurrency($data),
+            );
+        } catch (UnexpectedValueException $e) {
+            throw new UnexpectedValueException(
+                sprintf('Error fetching order summary data: "%s".', $e->getMessage()),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 }
