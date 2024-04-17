@@ -2,6 +2,15 @@
 
 A PayPal REST API implementation.
 
+Implemented functionality: [Orders v2](https://developer.paypal.com/docs/api/orders/v2/).
+
+---
+
+## Resources
+
+- [Get started with PayPal REST APIs](https://developer.paypal.com/api/rest/)
+- [Test credit cards](https://developer.paypal.com/tools/sandbox/card-testing/);
+
 ---
 
 ## Storage
