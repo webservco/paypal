@@ -67,7 +67,13 @@ abstract class AbstractPaymentService
      */
     protected function getResponseBodyAsArray(ResponseInterface $response): array
     {
+        $response->getBody()->rewind();
+
         $body = $response->getBody()->getContents();
+
+        // Important! Otherwise, the stream body contents can not be retrieved later.
+        $response->getBody()->rewind();
+
         if ($body === '') {
             // Possible situation: the body contents were read elsewhere and the stream was not rewinded.
             throw new UnexpectedValueException('Response body is empty.');
@@ -83,6 +89,8 @@ abstract class AbstractPaymentService
 
     protected function logRequest(RequestInterface $request): true
     {
+        $request->getBody()->rewind();
+
         $this->logger->debug(
             'Request debug (context).',
             [
@@ -101,6 +109,8 @@ abstract class AbstractPaymentService
 
     protected function logResponse(ResponseInterface $response): true
     {
+        $response->getBody()->rewind();
+
         $this->logger->debug(
             'Response debug (context).',
             [
