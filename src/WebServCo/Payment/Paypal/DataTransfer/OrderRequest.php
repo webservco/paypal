@@ -15,7 +15,7 @@ use WebServCo\Payment\Paypal\DataTransfer\Application\Context;
  * Not using camel case in order to comply with specification
  * (object is converted directly to JSON).
  *
- * @SuppressWarnings(PHPMD.CamelCaseParameterName)
+ * @SuppressWarnings("PHPMD.CamelCaseParameterName")
  */
 final class OrderRequest implements DataTransferInterface
 {

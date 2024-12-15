@@ -9,7 +9,6 @@ use UnexpectedValueException;
 use WebServCo\Payment\Paypal\DataTransfer\AccessToken;
 use WebServCo\Payment\Paypal\Service\AbstractPaymentService;
 
-use function array_key_exists;
 use function date;
 use function sprintf;
 use function time;
@@ -44,12 +43,8 @@ final class AccessTokenService extends AbstractPaymentService
     {
         $array = $this->getResponseBodyAsArray($response);
 
-        $token = array_key_exists('access_token', $array)
-            ? (string) $array['access_token']
-            : '';
-        $expiresIn = array_key_exists('expires_in', $array)
-            ? (int) $array['expires_in']
-            : 0;
+        $token = $this->getStringFromResponseBodyArray($array, 'access_token');
+        $expiresIn = $this->getIntFromResponseBodyArray($array, 'expires_in');
 
         if ($token === '' || $expiresIn === 0) {
             throw new UnexpectedValueException('Empty required fields.');

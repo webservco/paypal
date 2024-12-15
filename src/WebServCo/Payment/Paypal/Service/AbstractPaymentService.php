@@ -14,8 +14,10 @@ use UnexpectedValueException;
 use WebServCo\Payment\Paypal\DataTransfer\AccessToken;
 use WebServCo\Payment\Paypal\DataTransfer\PaypalOptions;
 
+use function array_key_exists;
 use function base64_encode;
 use function is_array;
+use function is_scalar;
 use function json_decode;
 use function sprintf;
 use function uniqid;
@@ -63,6 +65,23 @@ abstract class AbstractPaymentService
 
     /**
      * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+     * @param array<mixed> $array
+     */
+    protected function getIntFromResponseBodyArray(array $array, string $key): int
+    {
+        if (!array_key_exists($key, $array)) {
+            throw new UnexpectedValueException('Empty required fields.');
+        }
+
+        if (!is_scalar($array[$key])) {
+            throw new UnexpectedValueException('Empty required fields.');
+        }
+
+        return (int) $array[$key];
+    }
+
+    /**
+     * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
      * @return array<mixed>
      */
     protected function getResponseBodyAsArray(ResponseInterface $response): array
@@ -85,6 +104,23 @@ abstract class AbstractPaymentService
         }
 
         return $array;
+    }
+
+    /**
+     * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+     * @param array<mixed> $array
+     */
+    protected function getStringFromResponseBodyArray(array $array, string $key): string
+    {
+        if (!array_key_exists($key, $array)) {
+            throw new UnexpectedValueException('Empty required fields.');
+        }
+
+        if (!is_scalar($array[$key])) {
+            throw new UnexpectedValueException('Empty required fields.');
+        }
+
+        return (string) $array[$key];
     }
 
     protected function logRequest(RequestInterface $request): true

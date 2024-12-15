@@ -17,16 +17,10 @@ assert(isset($paypalIncludesPath) && is_string($paypalIncludesPath));
 $logger = new NullLogger();
 
 // @phpcs:disable SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable.DisallowedSuperGlobalVariable
-/**
- * @psalm-suppress PossiblyInvalidCast
- */
-$orderReference = array_key_exists('orderReference', $_GET)
+$orderReference = array_key_exists('orderReference', $_GET) && is_scalar($_GET['orderReference'])
 ? (string) $_GET['orderReference']
 : null;
-/**
- * @psalm-suppress PossiblyInvalidCast
- */
-$languageCode = array_key_exists('languageCode', $_GET)
+$languageCode = array_key_exists('languageCode', $_GET) && is_scalar($_GET['languageCode'])
     ? (string) $_GET['languageCode']
     : null;
 // @phpcs:enable

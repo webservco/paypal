@@ -16,7 +16,6 @@ use WebServCo\Payment\Paypal\DataTransfer\Purchase\Item;
 use WebServCo\Payment\Paypal\DataTransfer\Purchase\Unit;
 use WebServCo\Payment\Paypal\Service\AbstractPaymentService;
 
-use function array_key_exists;
 use function in_array;
 use function json_encode;
 use function sprintf;
@@ -196,12 +195,8 @@ final class OrdersService extends AbstractPaymentService
     {
         $array = $this->getResponseBodyAsArray($response);
 
-        $id = array_key_exists('id', $array)
-            ? (string) $array['id']
-            : '';
-        $status = array_key_exists('status', $array)
-            ? (string) $array['status']
-            : '';
+        $id = $this->getStringFromResponseBodyArray($array, 'id');
+        $status = $this->getStringFromResponseBodyArray($array, 'status');
 
         if ($id === '' || $status === '') {
             throw new UnexpectedValueException('Empty required fields.');
