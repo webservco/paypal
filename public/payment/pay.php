@@ -17,10 +17,18 @@ declare(strict_types=1);
  * Example for local project:
  * $paypalIncludesPath = realpath(__DIR__ ) . DIRECTORY_SEPARATOR;
  */
-$paypalIncludesPath = realpath(__DIR__ . '/../../src/example_implementation') . DIRECTORY_SEPARATOR;
+$paypalIncludesPath = realpath(__DIR__ . '/../../src/example_implementation');
+if ($paypalIncludesPath === false) {
+    throw new UnexpectedValueException('Failed to retrieve path.');
+}
+$paypalIncludesPath .= DIRECTORY_SEPARATOR;
 
 // Current project path (where dependencies are installed)
-$projectPath = realpath(__DIR__ . '/../..') . DIRECTORY_SEPARATOR;
+$projectPath = realpath(__DIR__ . '/../..');
+if ($projectPath === false) {
+    throw new UnexpectedValueException('Failed to retrieve path.');
+}
+$projectPath .= DIRECTORY_SEPARATOR;
 
 /**
  * Load dependencies
