@@ -19,7 +19,12 @@ use WebServCo\Data\Contract\Transfer\DataTransferInterface;
  * Not using camel case in order to comply with specification
  * (object is converted directly to JSON).
  *
+ * Phan: PhanRedefinedInheritedInterface
+ * "inherits abstract Interface \JsonSerializable declared at internal:0 which is also declared at"
+ * "vendor/php-parallel-lint/php-parallel-lint/src/polyfill.php:7. This may lead to confusing errors."
+ *
  * @SuppressWarnings("PHPMD.CamelCaseParameterName")
+ * @phan-suppress PhanRedefinedInheritedInterface
  */
 final class Amount implements DataTransferInterface, JsonSerializable
 {
