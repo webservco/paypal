@@ -96,6 +96,11 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
     }
 
     /**
+     * Phan false positive:
+     * "Argument 2 ($code) is $e->getCode() of type int|string but"
+     * "\UnexpectedValueException::__construct() takes int (string is incompatible)"
+     *
+     * @phan-suppress PhanPartialTypeMismatchArgumentInternal
      * @param array<string,scalar|null> $data
      */
     private function hydrateOrderPaymentStatus(array $data): ?string
@@ -112,13 +117,18 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
         } catch (UnexpectedValueException $e) {
             throw new UnexpectedValueException(
                 sprintf('Error fetching order payment status: "%s".', $e->getMessage()),
-                (int) $e->getCode(),
+                $e->getCode(),
                 $e,
             );
         }
     }
 
     /**
+     *  Phan false positive:
+     *  "Argument 2 ($code) is $e->getCode() of type int|string but"
+     *  "\UnexpectedValueException::__construct() takes int (string is incompatible)"
+     *
+     * @phan-suppress PhanPartialTypeMismatchArgumentInternal
      * @param array<string,scalar|null> $data
      */
     private function hydrateOrderSummary(array $data): Summary
@@ -138,7 +148,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
         } catch (UnexpectedValueException $e) {
             throw new UnexpectedValueException(
                 sprintf('Error fetching order summary data: "%s".', $e->getMessage()),
-                (int) $e->getCode(),
+                $e->getCode(),
                 $e,
             );
         }
