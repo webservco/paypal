@@ -208,7 +208,7 @@ final class OrdersService extends AbstractPaymentService
     private function createOrderRequest(Item $item, Context $context): OrderRequest
     {
         // Total for all items, and extra costs.
-        $amount = new Amount($item->unit_amount->currency_code, $item->quantity * $item->unit_amount->value);
+        $amount = new Amount($item->unit_amount->currency_code, (float) $item->quantity * $item->unit_amount->value);
 
         return new OrderRequest(
             'CAPTURE',
