@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WebServCo\Payment\Paypal\DataTransfer\Purchase;
 
 use JsonSerializable;
+use Override;
 use WebServCo\Data\Contract\Transfer\DataTransferInterface;
 
 /**
@@ -42,6 +43,7 @@ final class Amount implements DataTransferInterface, JsonSerializable
      * "links":[{"href":"https://developer.paypal.com/docs/api/orders/v2/#error-DECIMAL_PRECISION",
      * "rel":"information_link","method":"GET"}]}'
      */
+    #[Override]
     public function jsonSerialize(): mixed
     {
         return [

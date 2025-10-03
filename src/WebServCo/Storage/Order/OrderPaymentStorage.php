@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WebServCo\Storage\Order;
 
+use Override;
 use PDOStatement;
 use UnexpectedValueException;
 use WebServCo\Contract\Storage\Order\OrderPaymentStorageInterface;
@@ -15,6 +16,7 @@ use function sprintf;
 
 final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentStorageInterface
 {
+    #[Override]
     public function fetchOrderSummary(string $orderReference): Summary
     {
         $stmt = $this->createOrderSummaryFetchStatement();
@@ -25,6 +27,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
         return $this->hydrateOrderSummary($row);
     }
 
+    #[Override]
     public function fetchOrderPaymentStatus(string $orderReference): ?string
     {
         $stmt = $this->pdoContainer->getPDOService()->prepareStatement(
@@ -43,6 +46,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
         return $this->hydrateOrderPaymentStatus($row);
     }
 
+    #[Override]
     public function updateOrderData(string $orderReference, OrderData $orderData): bool
     {
         $stmt = $this->pdoContainer->getPDOService()->prepareStatement(
