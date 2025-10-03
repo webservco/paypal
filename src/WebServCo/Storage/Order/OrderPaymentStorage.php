@@ -112,7 +112,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
         } catch (UnexpectedValueException $e) {
             throw new UnexpectedValueException(
                 sprintf('Error fetching order payment status: "%s".', $e->getMessage()),
-                $e->getCode(),
+                (int) $e->getCode(),
                 $e,
             );
         }
@@ -138,7 +138,7 @@ final class OrderPaymentStorage extends AbstractStorage implements OrderPaymentS
         } catch (UnexpectedValueException $e) {
             throw new UnexpectedValueException(
                 sprintf('Error fetching order summary data: "%s".', $e->getMessage()),
-                $e->getCode(),
+                (int) $e->getCode(),
                 $e,
             );
         }
