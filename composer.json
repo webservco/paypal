@@ -66,8 +66,8 @@
             "@check:phpcs",
             "@check:phpstan",
             "@check:phpmd",
-            "@check:psalm",
-            "@check:phan"
+            "@check:phan",
+            "@check:psalm"
         ],
         "c": "@check",
         "fix:phpcs": "vendor/bin/phpcbf --standard=vendor/webservco/component-common/.phpcs/php-coding-standard.xml --extensions=php -sp bin config public resources src tests",
