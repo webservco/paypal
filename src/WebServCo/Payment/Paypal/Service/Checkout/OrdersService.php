@@ -23,10 +23,10 @@ use function strtoupper;
 
 final class OrdersService extends AbstractPaymentService
 {
-    private const API_PATH = '/v2/checkout/orders';
+    private const string API_PATH = '/v2/checkout/orders';
 
     // https://developer.paypal.com/reference/currency-codes/
-    private const SUPPORTED_CURRENCIES = [
+    private const array SUPPORTED_CURRENCIES = [
         'AUD',
         'BRL',
         'CAD',

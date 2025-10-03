@@ -16,7 +16,7 @@ use function time;
 final class AccessTokenService extends AbstractPaymentService
 {
     // Not a typo, must use v1, v2 gives 404
-    private const API_PATH = '/v1/oauth2/token';
+    private const string API_PATH = '/v1/oauth2/token';
 
     public function getAccessToken(): AccessToken
     {
