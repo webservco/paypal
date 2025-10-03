@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @phan-file-suppress PhanRedundantConditionInGlobalScope
+ */
+
 declare(strict_types=1);
 
 use Psr\Log\NullLogger;
