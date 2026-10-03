@@ -14,9 +14,9 @@ use WebServCo\Data\Contract\Transfer\DataTransferInterface;
  *
  * @SuppressWarnings("PHPMD.CamelCaseParameterName")
  */
-final class Context implements DataTransferInterface
+final readonly class Context implements DataTransferInterface
 {
-    public function __construct(public readonly string $return_url, public readonly string $cancel_url)
+    public function __construct(public string $return_url, public string $cancel_url)
     {
     }
 }

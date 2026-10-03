@@ -13,9 +13,9 @@ use WebServCo\Data\Contract\Transfer\DataTransferInterface;
  * when using the "return=minimal" "Prefer" header.
  * https://developer.paypal.com/docs/api/orders/v2/
  */
-final class OrderData implements DataTransferInterface
+final readonly class OrderData implements DataTransferInterface
 {
-    public function __construct(public readonly string $id, public readonly string $status)
+    public function __construct(public string $id, public string $status)
     {
     }
 }

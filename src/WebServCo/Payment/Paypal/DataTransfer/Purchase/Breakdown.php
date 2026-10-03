@@ -16,9 +16,9 @@ use WebServCo\Data\Contract\Transfer\DataTransferInterface;
  *
  * @SuppressWarnings("PHPMD.CamelCaseParameterName")
  */
-final class Breakdown implements DataTransferInterface
+final readonly class Breakdown implements DataTransferInterface
 {
-    public function __construct(public readonly Amount $item_total)
+    public function __construct(public Amount $item_total)
     {
     }
 }

@@ -17,15 +17,15 @@ use WebServCo\Payment\Paypal\DataTransfer\Application\Context;
  *
  * @SuppressWarnings("PHPMD.CamelCaseParameterName")
  */
-final class OrderRequest implements DataTransferInterface
+final readonly class OrderRequest implements DataTransferInterface
 {
     /**
      * @param array<int,\WebServCo\Payment\Paypal\DataTransfer\Purchase\Unit> $purchase_units
      */
     public function __construct(
-        public readonly string $intent,
-        public readonly array $purchase_units,
-        public readonly Context $application_context,
+        public string $intent,
+        public array $purchase_units,
+        public Context $application_context,
     ) {
     }
 }

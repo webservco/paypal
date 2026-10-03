@@ -6,9 +6,9 @@ namespace WebServCo\Payment\Paypal\DataTransfer;
 
 use WebServCo\Data\Contract\Transfer\DataTransferInterface;
 
-final class AccessToken implements DataTransferInterface
+final readonly class AccessToken implements DataTransferInterface
 {
-    public function __construct(public readonly string $token, public readonly string $expireDateTime)
+    public function __construct(public string $token, public string $expireDateTime)
     {
     }
 }

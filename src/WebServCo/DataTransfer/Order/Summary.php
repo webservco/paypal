@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace WebServCo\DataTransfer\Order;
 
-final class Summary
+final readonly class Summary
 {
-    public function __construct(public readonly float $total, public readonly string $currency)
+    public function __construct(public float $total, public string $currency)
     {
     }
 }

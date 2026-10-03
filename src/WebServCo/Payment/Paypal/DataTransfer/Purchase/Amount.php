@@ -26,13 +26,10 @@ use WebServCo\Data\Contract\Transfer\DataTransferInterface;
  * @SuppressWarnings("PHPMD.CamelCaseParameterName")
  * @phan-suppress PhanRedefinedInheritedInterface
  */
-final class Amount implements DataTransferInterface, JsonSerializable
+final readonly class Amount implements DataTransferInterface, JsonSerializable
 {
-    public function __construct(
-        public readonly string $currency_code,
-        public readonly float $value,
-        public readonly ?Breakdown $breakdown = null,
-    ) {
+    public function __construct(public string $currency_code, public float $value, public ?Breakdown $breakdown = null)
+    {
     }
 
     /**

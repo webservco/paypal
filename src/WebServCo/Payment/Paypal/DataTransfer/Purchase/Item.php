@@ -16,13 +16,13 @@ use WebServCo\Data\Contract\Transfer\DataTransferInterface;
  *
  * @SuppressWarnings("PHPMD.CamelCaseParameterName")
  */
-final class Item implements DataTransferInterface
+final readonly class Item implements DataTransferInterface
 {
     public function __construct(
-        public readonly string $name,
-        public readonly string $description,
-        public readonly int $quantity,
-        public readonly Amount $unit_amount,
+        public string $name,
+        public string $description,
+        public int $quantity,
+        public Amount $unit_amount,
     ) {
     }
 }

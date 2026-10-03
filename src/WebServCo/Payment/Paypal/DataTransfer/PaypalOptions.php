@@ -6,12 +6,9 @@ namespace WebServCo\Payment\Paypal\DataTransfer;
 
 use WebServCo\Data\Contract\Transfer\DataTransferInterface;
 
-final class PaypalOptions implements DataTransferInterface
+final readonly class PaypalOptions implements DataTransferInterface
 {
-    public function __construct(
-        public readonly string $apiBaseUrl,
-        public readonly string $clientId,
-        public readonly string $secret,
-    ) {
+    public function __construct(public string $apiBaseUrl, public string $clientId, public string $secret)
+    {
     }
 }
