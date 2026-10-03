@@ -51,9 +51,7 @@ try {
         throw new UnexpectedValueException('Missing paypalOrderId.');
     }
 
-    /**
-     * Functionality below.
-     */
+    // Functionality below.
 
     /**
      * Check order status.

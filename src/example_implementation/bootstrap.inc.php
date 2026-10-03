@@ -25,9 +25,7 @@ use WebServCo\Payment\Paypal\Service\Checkout\OrdersService;
 use WebServCo\Storage\Order\OrderPaymentStorage;
 use WebServCo\Storage\Payment\AccessTokenStorage;
 
-/**
- * @phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
- */
+// @phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 
 /**
  * Included file validation.
