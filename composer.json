@@ -30,10 +30,10 @@
         "psr/http-client": "^1",
         "psr/http-message": "^2",
         "symfony/http-client": "^6",
-        "webservco/configuration": "^1",
-        "webservco/data": "^1",
-        "webservco/database": "^1",
-        "webservco/log": "^1"
+        "webservco/configuration": "^2",
+        "webservco/data": "^2",
+        "webservco/database": "^2",
+        "webservco/log": "^2"
     },
     "require-dev": {
         "pds/skeleton": "^1",
