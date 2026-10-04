@@ -17,7 +17,7 @@ corepack_enable: false
 # Custom configuration
 database:
     type: mariadb
-    version: "10.5"
+    version: "11.8"
 php_version: "8.4"
 timezone: Europe/Budapest
 webimage_extra_packages: [php8.4-ast]
