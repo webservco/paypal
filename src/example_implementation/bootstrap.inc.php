@@ -19,13 +19,12 @@ use WebServCo\DataTransfer\Order\Storage\FieldNameConfiguration;
 use WebServCo\DataTransfer\Order\Storage\TableNameConfiguration;
 use WebServCo\DataTransfer\Order\StorageConfiguration;
 use WebServCo\Log\Factory\ContextFileLoggerFactory;
+use WebServCo\Payment\Paypal\DataTransfer\PaymentBootstrap;
 use WebServCo\Payment\Paypal\DataTransfer\PaypalOptions;
 use WebServCo\Payment\Paypal\Service\Authentication\AccessTokenService;
 use WebServCo\Payment\Paypal\Service\Checkout\OrdersService;
 use WebServCo\Storage\Order\OrderPaymentStorage;
 use WebServCo\Storage\Payment\AccessTokenStorage;
-
-// @phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 
 /**
  * Included file validation.
@@ -48,7 +47,6 @@ $configurationGetterFactory = new ServerConfigurationGetterFactory();
 $configurationGetter = $configurationGetterFactory->createConfigurationGetter();
 
 $appBaseUrlSettingKey = $configurationGetter->getString('PAYMENT_APP_BASE_URL_SETTING_KEY');
-// Not working: @psalm-suppress UnusedVariable
 $appBaseUrl = $configurationGetter->getString($appBaseUrlSettingKey);
 if ($appBaseUrl === '') {
     throw new UnexpectedValueException('App base URL is empty');
@@ -95,7 +93,6 @@ $storageConfiguration = new StorageConfiguration(
     ),
 );
 
-// Not working: @psalm-suppress UnusedVariable
 $orderPaymentStorage = new OrderPaymentStorage(
     $arrayNonEmptyDataExtractionService,
     $pdoContainer,
@@ -128,12 +125,12 @@ $accessTokenService = new AccessTokenService(
     $psrImplementation,
 );
 try {
-    // Not working: @psalm-suppress UnusedVariable
     $accessToken = $accessTokenStorage->fetchCurrentAccessToken();
 } catch (UnexpectedValueException) {
     $accessToken = $accessTokenService->getAccessToken();
     $accessTokenStorage->storeAccessToken($accessToken);
 }
 
-// Not working: @psalm-suppress UnusedVariable
 $ordersService = new OrdersService($psrImplementation, $logger, $paypalOptions, $psrImplementation, $psrImplementation);
+
+return new PaymentBootstrap($accessToken, $appBaseUrl, $configurationGetter, $orderPaymentStorage, $ordersService);

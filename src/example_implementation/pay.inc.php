@@ -7,13 +7,10 @@
 declare(strict_types=1);
 
 use Psr\Log\NullLogger;
-use WebServCo\Configuration\Contract\ConfigurationGetterInterface;
-use WebServCo\Contract\Storage\Order\OrderPaymentStorageInterface;
-use WebServCo\Payment\Paypal\DataTransfer\AccessToken;
 use WebServCo\Payment\Paypal\DataTransfer\Application\Context;
+use WebServCo\Payment\Paypal\DataTransfer\PaymentBootstrap;
 use WebServCo\Payment\Paypal\DataTransfer\Purchase\Amount;
 use WebServCo\Payment\Paypal\DataTransfer\Purchase\Item;
-use WebServCo\Payment\Paypal\Service\Checkout\OrdersService;
 
 // Included file validation.
 assert(isset($paypalIncludesPath) && is_string($paypalIncludesPath));
@@ -35,12 +32,8 @@ try {
      *
      * @psalm-suppress UnresolvableInclude
      */
-    require sprintf('%sbootstrap.inc.php', $paypalIncludesPath);
-    assert(isset($accessToken) && $accessToken instanceof AccessToken);
-    assert(isset($configurationGetter) && $configurationGetter instanceof ConfigurationGetterInterface);
-    assert(isset($orderPaymentStorage) && $orderPaymentStorage instanceof OrderPaymentStorageInterface);
-    assert(isset($ordersService) && $ordersService instanceof OrdersService);
-    assert(isset($appBaseUrl) && is_string($appBaseUrl));
+    $bootstrap = require sprintf('%sbootstrap.inc.php', $paypalIncludesPath);
+    assert($bootstrap instanceof PaymentBootstrap);
 
     if ($orderReference === null) {
         throw new UnexpectedValueException('Missing orderReference.');
@@ -50,21 +43,21 @@ try {
      * Functionality below.
      */
 
-    $orderSummary = $orderPaymentStorage->fetchOrderSummary($orderReference);
+    $orderSummary = $bootstrap->orderPaymentStorage->fetchOrderSummary($orderReference);
 
     /**
      * Check if already paid.
      */
-    $orderPaymentStatus = $orderPaymentStorage->fetchOrderPaymentStatus($orderReference);
-    $ordersService->validateOrderPaymentStatusBeforeCreation($orderPaymentStatus);
+    $orderPaymentStatus = $bootstrap->orderPaymentStorage->fetchOrderPaymentStatus($orderReference);
+    $bootstrap->ordersService->validateOrderPaymentStatusBeforeCreation($orderPaymentStatus);
 
     /**
      * Payment sys.
      */
-    $ordersService->validateOrderCurrency($orderSummary->currency);
+    $bootstrap->ordersService->validateOrderCurrency($orderSummary->currency);
 
-    $orderData = $ordersService->createOrder(
-        $accessToken,
+    $orderData = $bootstrap->ordersService->createOrder(
+        $bootstrap->accessToken,
         new Item(
             sprintf('Order %s', $orderReference),
             '',
@@ -74,7 +67,7 @@ try {
         new Context(
             sprintf(
                 '%spayment/return.php?orderReference=%s%s',
-                $appBaseUrl,
+                $bootstrap->appBaseUrl,
                 $orderReference,
                 $languageCode !== null
                     ? sprintf('&languageCode=%s', $languageCode)
@@ -82,8 +75,8 @@ try {
             ),
             sprintf(
                 '%s%s?orderReference=%s%s',
-                $appBaseUrl,
-                $configurationGetter->getString('PAYMENT_CANCEL_LOCATION'),
+                $bootstrap->appBaseUrl,
+                $bootstrap->configurationGetter->getString('PAYMENT_CANCEL_LOCATION'),
                 $orderReference,
                 $languageCode !== null
                     ? sprintf('&languageCode=%s', $languageCode)
@@ -91,16 +84,16 @@ try {
             ),
         ),
     );
-    $ordersService->validatePaymentOrderStatusAfterCreation($orderData->status);
+    $bootstrap->ordersService->validatePaymentOrderStatusAfterCreation($orderData->status);
 
     // Store payment data.
-    $orderPaymentStorage->updateOrderData($orderReference, $orderData);
+    $bootstrap->orderPaymentStorage->updateOrderData($orderReference, $orderData);
 
     // Redirect to payment page.
     header(
         sprintf(
             'Location: %s/checkoutnow?token=%s',
-            $configurationGetter->getString('PAYPAL_WEB_BASE_URL'),
+            $bootstrap->configurationGetter->getString('PAYPAL_WEB_BASE_URL'),
             $orderData->id,
         ),
         true,

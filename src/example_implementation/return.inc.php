@@ -7,10 +7,7 @@
 declare(strict_types=1);
 
 use Psr\Log\NullLogger;
-use WebServCo\Configuration\Contract\ConfigurationGetterInterface;
-use WebServCo\Contract\Storage\Order\OrderPaymentStorageInterface;
-use WebServCo\Payment\Paypal\DataTransfer\AccessToken;
-use WebServCo\Payment\Paypal\Service\Checkout\OrdersService;
+use WebServCo\Payment\Paypal\DataTransfer\PaymentBootstrap;
 
 // Included file validation.
 assert(isset($paypalIncludesPath) && is_string($paypalIncludesPath));
@@ -37,12 +34,8 @@ try {
      *
      * @psalm-suppress UnresolvableInclude
      */
-    require sprintf('%sbootstrap.inc.php', $paypalIncludesPath);
-    assert(isset($accessToken) && $accessToken instanceof AccessToken);
-    assert(isset($configurationGetter) && $configurationGetter instanceof ConfigurationGetterInterface);
-    assert(isset($orderPaymentStorage) && $orderPaymentStorage instanceof OrderPaymentStorageInterface);
-    assert(isset($ordersService) && $ordersService instanceof OrdersService);
-    assert(isset($appBaseUrl) && is_string($appBaseUrl));
+    $bootstrap = require sprintf('%sbootstrap.inc.php', $paypalIncludesPath);
+    assert($bootstrap instanceof PaymentBootstrap);
 
     if ($orderReference === null) {
         throw new UnexpectedValueException('Missing orderReference.');
@@ -57,33 +50,33 @@ try {
      * Check order status.
      */
     // Get status from local database.
-    $orderPaymentStatus = $orderPaymentStorage->fetchOrderPaymentStatus($orderReference);
+    $orderPaymentStatus = $bootstrap->orderPaymentStorage->fetchOrderPaymentStatus($orderReference);
     // Use the same check done after creation, at this point we have no other info.
-    $ordersService->validatePaymentOrderStatusAfterCreation($orderPaymentStatus);
+    $bootstrap->ordersService->validatePaymentOrderStatusAfterCreation($orderPaymentStatus);
 
     /**
      * Payment sys.
      */
 
     // Get order data from PayPal
-    $orderData = $ordersService->getOrderData($accessToken, $paypalOrderId);
-    $ordersService->validateOrderPaymentStatusBeforeCapture($orderData->status);
+    $orderData = $bootstrap->ordersService->getOrderData($bootstrap->accessToken, $paypalOrderId);
+    $bootstrap->ordersService->validateOrderPaymentStatusBeforeCapture($orderData->status);
 
     // Capture payment
-    $orderData = $ordersService->captureOrder($accessToken, $paypalOrderId);
-    $ordersService->validateOrderPaymentStatusAfterCapture($orderData->status);
+    $orderData = $bootstrap->ordersService->captureOrder($bootstrap->accessToken, $paypalOrderId);
+    $bootstrap->ordersService->validateOrderPaymentStatusAfterCapture($orderData->status);
 
     // Store payment data.
-    $orderPaymentStorage->updateOrderData($orderReference, $orderData);
+    $bootstrap->orderPaymentStorage->updateOrderData($orderReference, $orderData);
 
     // Redirect to result page.
     header(
         sprintf(
             'Location: %s%s?orderReference=%s&accessToken=%s%s',
-            $appBaseUrl,
-            $configurationGetter->getString('PAYMENT_RESULT_LOCATION'),
+            $bootstrap->appBaseUrl,
+            $bootstrap->configurationGetter->getString('PAYMENT_RESULT_LOCATION'),
             $orderReference,
-            $accessToken->token,
+            $bootstrap->accessToken->token,
             $languageCode !== null
                 ? sprintf('&languageCode=%s', $languageCode)
                 : '',
