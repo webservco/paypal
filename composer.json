@@ -20,7 +20,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
-    "description" : "A PHP component/library.",
+    "description" : "A PHP component/library. Takes payment for an order through the PayPal REST API (Orders v2): create the order, send the customer to PayPal, then capture the payment.",
     "homepage" : "https://webserv.co",
     "keywords" : [
         "component",
